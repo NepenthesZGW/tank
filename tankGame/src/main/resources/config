@@ -1,0 +1,10 @@
+#tanks count
+initTankCount=10
+#goodtank FireStrategy
+fireStrategy=com.zgw.strategy.FourDirFireStrategy
+#tank collisionStrategy
+collider=com.zgw.chain.BulletAndTankCollider,com.zgw.chain.TankAndTankCollider,com.zgw.chain.TankAndWallCollider,com.zgw.chain.BulletAndWallCollider
+#tank gameFactory
+gameFactory=com.zgw.factory.DefaultFactory
+#Wall count
+wallCount=5
