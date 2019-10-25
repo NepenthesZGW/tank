@@ -9,6 +9,10 @@ public abstract class BaseBullet extends GameObject {
     protected Direct direct;
     protected BaseTank owner;
 
+    public Direct getDirect() {
+        return direct;
+    }
+
     public abstract void die();
     public abstract void paint(Graphics g);
     public BaseTank getOwner() { return owner; }
