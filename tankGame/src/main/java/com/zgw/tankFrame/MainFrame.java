@@ -1,13 +1,16 @@
 package com.zgw.tankFrame;
 
 import com.zgw.Facede.GameModel;
+import com.zgw.Facede.GameObject;
 import com.zgw.MemenTo.Snapshot;
+import com.zgw.encoder.ClientDieMsg;
+import com.zgw.encoder.TankMoveMsg;
+import com.zgw.encoder.TankStopMsg;
+import com.zgw.netty.TankClient;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.Set;
 
 public class MainFrame extends Frame {
 
@@ -28,6 +31,9 @@ public class MainFrame extends Frame {
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
+
+                TankClient.INSTANCE.send(new ClientDieMsg(GameModel.getInstance().getMyTank().getUuid()));
+                TankClient.INSTANCE.close();
                 System.exit(0);
             }
         });
@@ -69,7 +75,7 @@ public class MainFrame extends Frame {
     private class TankKeyListener extends KeyAdapter {
 
         LinkedList<Direct> directs=new LinkedList<Direct>();
-
+        Direct last=null;
         @Override
         public void keyPressed(KeyEvent e) {
 
@@ -93,15 +99,12 @@ public class MainFrame extends Frame {
                 case 32:
                     gameModel.getMyTank().fire(gameModel.fireStrategy);
                     break;
-                case 80:
-                    gameModel.createEnemy();
-                    break;
-                case 76:
+                /*case 76:
                     Snapshot.load();
                     break;
                 case 79:
                     Snapshot.save();
-                    break;
+                    break;*/
                  default:break;
             }
             move();
@@ -126,10 +129,22 @@ public class MainFrame extends Frame {
             move();
         }
         private  void move(){
-            if(!directs.isEmpty())
-                gameModel.getMyTank().setDirect(directs.getLast());
-            else
-                gameModel.getMyTank().stop();
+            if(!directs.isEmpty()) {
+                Direct last = directs.getLast();
+                if(last!=GameModel.getInstance().getMyTank().getDirect()){
+                    gameModel.getMyTank().setDirect(last);
+                    TankClient.INSTANCE.send(new TankMoveMsg(GameModel.getInstance().getMyTank()));
+                }else {
+                    gameModel.getMyTank().setDirect(last);
+                }
+            }
+            else {
+                if(gameModel.getMyTank().isMoving()){
+                    gameModel.getMyTank().stop();
+                    TankClient.INSTANCE
+                            .send(new TankStopMsg(GameModel.getInstance().getMyTank()));
+                }
+            }
         }
     }
 
