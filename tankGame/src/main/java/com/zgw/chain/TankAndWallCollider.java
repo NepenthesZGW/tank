@@ -14,8 +14,8 @@ public class TankAndWallCollider implements Collider<GameObject>{
 
             if(t1.getRectangle().intersects(t2.getRectangle())){
                 ((BaseTank) t1).back();
-                if(t1.getRectangle().intersects(t2.getRectangle()))
-                    dealCollision(t1.getRectangle(),t2.getRectangle());
+               // if(t1.getRectangle().intersects(t2.getRectangle()))
+                   // dealCollision(t1.getRectangle(),t2.getRectangle());
                 return  true;
             }
         }else if((t1 instanceof BaseWall)&& (t2 instanceof BaseTank)){
@@ -26,19 +26,7 @@ public class TankAndWallCollider implements Collider<GameObject>{
     }
 
     private  void dealCollision(Rectangle r1,Rectangle r2){
-        if(Math.abs(r1.x-r2.x)<Math.abs(r1.y-r2.y)) {
 
-            if(r1.y>r2.y){
-                r1.y=r2.y+r2.height;
-            }else{
-                r1.y=r2.y-r1.height;
-            }
-        }else{
-            if(r1.x>r2.x){
-                r1.x=r2.x+r2.width;
-            }else{
-                r1.x=r2.x-r1.width;
-            }
-        }
+
     }
 }
