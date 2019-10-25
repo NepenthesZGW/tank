@@ -7,6 +7,8 @@ import com.zgw.tankFrame.GoodTank;
 
 import java.io.*;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class Snapshot {
 
@@ -17,7 +19,7 @@ public class Snapshot {
            out=new ObjectOutputStream(new FileOutputStream("Tank.data"));
 
            out.writeObject(GameModel.getInstance().getMyTank());
-           out.writeObject(GameModel.getInstance().gameObjectList);
+           out.writeObject(GameModel.getInstance().gameMap);
            out.flush();
             System.out.println("----保存成功----");
         } catch (IOException e) {
@@ -40,9 +42,9 @@ public class Snapshot {
             in=new ObjectInputStream(new FileInputStream("Tank.data"));
 
             BaseTank myTank = (BaseTank)in.readObject();
-            List<GameObject> list = (List<GameObject>)in.readObject();
+            Map<UUID,GameObject>  map = (Map<UUID,GameObject>)in.readObject();
             GameModel.getInstance().myTank= (GoodTank) myTank;
-            GameModel.getInstance().gameObjectList=list;
+            GameModel.getInstance().gameMap=map;
             System.out.println("----读取成功----");
         } catch (Exception e) {
             e.printStackTrace();
