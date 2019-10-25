@@ -1,11 +1,13 @@
 package com.zgw.tankFrame;
 
 import com.zgw.Facede.GameModel;
+import com.zgw.encoder.BulletMsg;
 import com.zgw.factory.BaseBullet;
 import com.zgw.factory.BaseTank;
 import com.zgw.resource.ResourceMgr;
 
 import java.awt.*;
+import java.util.UUID;
 
 public class Bullet extends BaseBullet {
     public static final int speed=10;
@@ -15,8 +17,18 @@ public class Bullet extends BaseBullet {
         rectangle=new Rectangle(x,y,width,height);
         this.direct = direct;
         this.owner  = owner;
+        this.uuid=UUID.randomUUID();
         GameModel.getInstance().addGameObject(this);
     }
+
+    public Bullet(BulletMsg bulletMsg) {
+        rectangle=new Rectangle(bulletMsg.x,bulletMsg.y,width,height);
+        this.direct = bulletMsg.direct;
+        this.uuid=bulletMsg.uuid;
+        this.owner  = (BaseTank)GameModel.getInstance().tankMap.get(bulletMsg.owner);
+        GameModel.getInstance().addGameObject(this);
+    }
+
 
     public void paint(Graphics g){
 
