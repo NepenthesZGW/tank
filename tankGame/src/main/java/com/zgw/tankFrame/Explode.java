@@ -5,6 +5,7 @@ import com.zgw.factory.BaseExplode;
 import com.zgw.resource.ResourceMgr;
 
 import java.awt.*;
+import java.util.UUID;
 
 public class Explode extends BaseExplode {
 
@@ -18,6 +19,7 @@ public class Explode extends BaseExplode {
     public Explode(int x, int y) {
         this.x = x;
         this.y = y;
+        this.uuid=UUID.randomUUID();
         GameModel.getInstance().addGameObject(this);
     }
 
