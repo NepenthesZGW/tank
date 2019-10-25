@@ -13,4 +13,5 @@ public  class GoDecorator extends GameObject {
     public void paint(Graphics g) {
         gameObject.paint(g);
     }
+
 }
