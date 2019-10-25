@@ -1,5 +1,6 @@
 package com.zgw.tankGame;
 
+import com.zgw.netty.TankClient;
 import com.zgw.tankFrame.MainFrame;
 
 import java.lang.reflect.Field;
@@ -10,12 +11,23 @@ public class TankApplication {
     public static void main(String[] args) throws Exception {
 
 
-        MainFrame tankFrame=new MainFrame();
-        while (true){
+        final   MainFrame tankFrame=new MainFrame();
+        new Thread(new Runnable() {
+            public void run() {
+                while (true){
 
-            Thread.sleep(50);
-            tankFrame.repaint();
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    tankFrame.repaint();
+                }
+            }
         }
+        ).start();
+        TankClient tankClient=TankClient.INSTANCE;
+        tankClient.connect("127.0.0.1",8888);
 
     }
     public static void printClassesOfClassLoader(ClassLoader loader) {
