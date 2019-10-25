@@ -12,6 +12,7 @@ import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 public class BadTank extends BaseTank {
     private static final int speed=5;
@@ -26,6 +27,7 @@ public class BadTank extends BaseTank {
         oldX=x;
         oldY=y;
         rectangle=new Rectangle(x,y,width,height);
+        this.uuid=UUID.randomUUID();
         GameModel.getInstance().addGameObject(this);
     }
 
